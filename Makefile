@@ -29,7 +29,4 @@ package-install:
 
 package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
-
-lint:
-	poetry run flake8 brain_games
 .PHONY: install test lint selfcheck check build
