@@ -29,4 +29,14 @@ package-install:
 
 package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
-.PHONY: install test lint selfcheck check build
+.PHONY: install \
+gendiff \
+test \
+test-coverage \
+lint \
+selfcheck \
+check \
+build \
+publish \
+package-install \
+package-reinstall

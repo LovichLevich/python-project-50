@@ -12,16 +12,37 @@ jobs:
   coverage:
     name: Calculate coverage
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
       
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      
+      - name: Cache Poetry
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.poetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
       - name: Install Poetry
-        run: pip install poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH="$HOME/.poetry/bin:$PATH"
       
-      - name: Run make install
-        run: make install
-      
+      - name: Install dependencies
+        run: |
+          poetry install
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
+
       - name: Run CodeClimate action
         uses: paambaati/codeclimate-action@v8.0.0
         env:
