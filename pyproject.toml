@@ -15,6 +15,7 @@ pyyaml = "^6.0"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 pytest-cov = "^2.12"
+flake8 = "^3.9.2"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:main"
