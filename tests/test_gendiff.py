@@ -1,7 +1,7 @@
 import pytest
 import json
 import yaml
-from gendiff.engine import convert_value_to_string, generate_diff
+from gendiff.engine import conv_string, generate_diff
 
 
 @pytest.mark.parametrize("input, expected", [
@@ -10,7 +10,7 @@ from gendiff.engine import convert_value_to_string, generate_diff
     (False, "false"),
 ])
 def test_convert_value_to_string(input, expected):
-    assert convert_value_to_string(input) == expected
+    assert conv_string(input) == expected
     
 @pytest.fixture
 def file1_json_path():
