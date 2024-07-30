@@ -1,6 +1,6 @@
-import pytest
-import json
-import yaml
+import pytest # type: ignore
+import json # type: ignore
+import yaml # type: ignore
 from gendiff.engine import conv_string, generate_diff
 
 
