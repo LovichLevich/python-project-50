@@ -47,22 +47,27 @@ def stylish(diff, depth=0):
     lines = []
     for key, status, value, value_depth in diff:
         if status == 'nested':
-            lines.append(f"{indent}{key}: {{")
+            lines.append(f"{indent}    {key}: {{")
             lines.extend(stylish(value, depth + 1))
-            lines.append(f"{indent}}}")
+            lines.append(f"{indent}    }}")
         else:
             symbol = '-' if status == '-' else '+' if status == '+' else ' '
-            value_indent = ' ' * 4 * (depth + 1) if isinstance(value, dict) else indent
             if isinstance(value, dict):
-                lines.append(f"{indent}{symbol} {key}: {{")
+                lines.append(f"{indent}  {symbol} {key}: {{")
                 nested_lines = stylish(generate_diff_lines(value, {}, depth + 1), depth + 1)
+                if symbol in ['-', '+']:
+                    nested_lines = [line.replace('+ ', '  ').replace('- ', '  ') for line in nested_lines]
                 lines.extend(nested_lines)
-                lines.append(f"{indent}  }}")
+                lines.append(f"{indent}    }}")
             else:
-                if status in ['-', '+']:
-                    lines.append(f"{indent}{symbol} {key}: {conv_string(value)}")
+                if isinstance(value, str) and not (value.isdigit() or value in {'true', 'false', 'null'}):
+                    value_str = value
                 else:
-                    lines.append(f"{value_indent}  {key}: {conv_string(value)}")
+                    value_str = conv_string(value)
+                line = f"{indent}  {symbol} {key}: {value_str}"
+                if depth > 0 and symbol not in ['-', '+']:
+                    line = f"{indent}    {key}: {value_str}"
+                lines.append(line)
     return lines
 
 
