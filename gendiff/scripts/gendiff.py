@@ -3,6 +3,7 @@ import argparse
 from gendiff.engine import generate_diff
 from gendiff.filters.plain import plain
 from gendiff.filters.stylish import stylish
+from gendiff.filters.json import gendiff_json as json
 
 
 def main():
@@ -21,6 +22,8 @@ def main():
         formatter = plain
     elif args.format == 'stylish':
         formatter = stylish
+    elif args.format == 'json':
+        formatter = json
     print(generate_diff(args.first_file, args.second_file, formatter))
 
 
