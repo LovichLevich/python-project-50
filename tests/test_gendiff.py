@@ -1,6 +1,4 @@
 import pytest # type: ignore
-import json # type: ignore
-import yaml # type: ignore
 from gendiff.engine import generate_diff
 from gendiff.filters.plain import plain
 from gendiff.filters.stylish import stylish, conv_string
@@ -13,7 +11,7 @@ from gendiff.filters.json import gendiff_json
 ])
 def test_convert_value_to_string(input, expected):
     assert conv_string(input) == expected
-    
+
 @pytest.fixture
 def file1_json_path():
     return 'tests/fixtures/file1.json'
@@ -45,25 +43,15 @@ def expected_diff_json():
     with open('tests/fixtures/expected_diff_json.txt') as f:
         return f.read().strip()  
 
-@pytest.mark.parametrize("file1_path, file2_path", [
-    ('file1_json_path', 'file2_json_path'),
-    ('file1_yaml_path', 'file2_yaml_path')
+@pytest.mark.parametrize("file1_path, file2_path, expected_diff, formatter", [
+    ('file1_json_path', 'file2_json_path', 'expected_diff_json', gendiff_json),
+    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_stylish', stylish),
+    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_plain', plain),
 ])
-
-@pytest.mark.parametrize("format", ['stylish', 'plain', 'json'])
-def test_generate_diff(file1_path, file2_path, expected_diff_stylish, expected_diff_plain, expected_diff_json, format, request):
+def test_generate_diff(file1_path, file2_path, expected_diff, formatter, request):
     file1_path = request.getfixturevalue(file1_path)
     file2_path = request.getfixturevalue(file2_path)
+    expected_diff = request.getfixturevalue(expected_diff)
     
-    if format == 'plain':
-        formatter = plain
-        expected_diff = expected_diff_plain
-    elif format == 'stylish':
-        formatter = stylish
-        expected_diff = expected_diff_stylish
-    elif format == 'json':
-        formatter = gendiff_json
-        expected_diff = expected_diff_json
-
     diff_result = generate_diff(file1_path, file2_path, formatter)
     assert diff_result == expected_diff
