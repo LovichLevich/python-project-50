@@ -1,6 +1,5 @@
 import json  # type: ignore
 import yaml  # type: ignore
-from filters.stylish import stylish
 
 INITIAL_DEPTH = 0
 DEPTH_INCREMENT = 1
@@ -40,7 +39,7 @@ def generate_diff_lines(data1, data2, depth=0):
     return diff
 
 
-def generate_diff(file1_path, file2_path, formatter=stylish):
+def generate_diff(file1_path, file2_path, formatter):
     data1 = read_file(file1_path)
     data2 = read_file(file2_path)
     diff = generate_diff_lines(data1, data2)
