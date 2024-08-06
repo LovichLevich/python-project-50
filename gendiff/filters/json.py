@@ -17,8 +17,7 @@ def convert_diff(item):
         "depth": depth
     }
 
+
 def gendiff_json(diff):
     json_diff = json.dumps([convert_diff(item) for item in diff], indent=1)
     return json_diff
-    #with open('result.json', 'w') as file:
-        #file.write(json_diff)
