@@ -9,7 +9,6 @@ from gendiff.filters.json import gendiff_json
     (True, "true"),
     (False, "false"),
 ])
-
 def test_convert_value_to_string(input, expected):
     assert conv_string(input) == expected
 
@@ -49,7 +48,6 @@ def expected_diff_json():
     ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_stylish', stylish),
     ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_plain', plain),
 ])
-
 def test_generate_diff(file1_path, file2_path, expected_diff, formatter, request):
     file1_path = request.getfixturevalue(file1_path)
     file2_path = request.getfixturevalue(file2_path)
