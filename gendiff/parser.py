@@ -1,4 +1,5 @@
-import yaml
+import yaml  # type: ignore
+import json  # type: ignore
 
 
 def read_file(file_path):
