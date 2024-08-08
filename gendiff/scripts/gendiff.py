@@ -14,7 +14,7 @@ def main():
         "-f",
         "--format",
         dest="format",
-        default="stylish",
+        default=stylish,
         help="Set format of output (default: stylish)"
     )
     parser.add_argument('first_file')
