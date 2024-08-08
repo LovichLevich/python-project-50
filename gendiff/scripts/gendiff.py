@@ -14,7 +14,7 @@ def main():
         "-f",
         "--format",
         dest="format",
-        default=stylish,
+        default="stylish",
         help="Set format of output (default: stylish)"
     )
     parser.add_argument('first_file')
@@ -25,8 +25,10 @@ def main():
         formatter = plain
     elif args.format == 'json':
         formatter = json
-    else:
+    elif args.format == 'stylish':
         formatter = stylish
+    else:
+        raise ValueError(f"Unknown format: {args.format}")
 
     print(generate_diff(args.first_file, args.second_file, formatter))
 
