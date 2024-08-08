@@ -1,5 +1,5 @@
-import json # type: ignore
-import yaml # type: ignore
+import json  # type: ignore
+import yaml  # type: ignore
 
 from gendiff.filters.stylish import generate_diff_lines, stylish  # type: ignore
 
