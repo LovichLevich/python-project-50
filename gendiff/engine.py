@@ -16,9 +16,12 @@ def format_diff(diff, formatter='stylish'):
         formatted_diff = gendiff_json(diff)
     else:
         raise ValueError(f"Unknown formatter: {formatter}")
+    if formatter == 'plain':
+        return "\n".join(formatted_diff)
     if isinstance(formatted_diff, list):
         return "{\n" + "\n".join(formatted_diff) + "\n}"
     return formatted_diff
+
 
 
 def generate_diff(file1_path, file2_path, formatter='stylish'):
