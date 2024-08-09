@@ -23,7 +23,6 @@ def format_diff(diff, formatter='stylish'):
     return formatted_diff
 
 
-
 def generate_diff(file1_path, file2_path, formatter='stylish'):
     data1 = read_file(file1_path)
     data2 = read_file(file2_path)
