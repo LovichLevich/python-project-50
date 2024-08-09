@@ -44,9 +44,9 @@ def expected_diff_json():
         return f.read().strip()
 
 @pytest.mark.parametrize("file1_path, file2_path, expected_diff, formatter", [
-    ('file1_json_path', 'file2_json_path', 'expected_diff_json', gendiff_json),
-    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_stylish', stylish),
-    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_plain', plain),
+    ('file1_json_path', 'file2_json_path', 'expected_diff_json', 'json'),
+    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_stylish', 'stylish'),
+    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_plain', 'plain'),
 ])
 def test_generate_diff(file1_path, file2_path, expected_diff, formatter, request):
     file1_path = request.getfixturevalue(file1_path)

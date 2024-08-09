@@ -58,9 +58,9 @@ def find_next_index(key, diff):
 
 
 def process_added(key, value, diff, property_name):
-    if any(k == key and s == '-' for k, s, _, __ in diff):
-        return []
-    return [
-        f"Property '{property_name}' was added with value: "
-        f"{format_value(value)}"
-    ]
+    if not any(k == key and s == '-' for k, s, _, __ in diff):
+        return [
+            f"Property '{property_name}' was added with value: "
+            f"{format_value(value)}".strip()
+        ]
+    return []
