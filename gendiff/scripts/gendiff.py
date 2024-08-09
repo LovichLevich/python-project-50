@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 import argparse
 from gendiff.engine import generate_diff
-from gendiff.filters.plain import plain
-from gendiff.filters.stylish import stylish
-from gendiff.filters.json import gendiff_json as json
 
 
 def main():
@@ -22,11 +19,11 @@ def main():
     args = parser.parse_args()
 
     if args.format == 'plain':
-        formatter = plain
+        formatter = 'plain'
     elif args.format == 'json':
-        formatter = json
+        formatter = 'json'
     elif args.format == 'stylish':
-        formatter = stylish
+        formatter = 'stylish'
     else:
         raise ValueError(f"Unknown format: {args.format}")
 
