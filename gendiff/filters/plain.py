@@ -1,15 +1,13 @@
 def format_value(value):
-    if isinstance(value, dict):
-        return '[complex value]'
-    if isinstance(value, bool):
-        return str(value).lower()
-    if value is None:
-        return 'null'
-    if isinstance(value, (int, float)):
-        return str(value)
-    if isinstance(value, str):
-        return f"'{value}'"
-    return str(value)
+    type_map = {
+        dict: '[complex value]',
+        bool: str(value).lower(),
+        type(None): 'null',
+        int: str(value),
+        float: str(value),
+        str: f"'{value}'"
+    }
+    return type_map.get(type(value), str(value))
 
 
 def process_diff_item(key, status, value, diff, parent, previous_properties):
@@ -17,30 +15,21 @@ def process_diff_item(key, status, value, diff, parent, previous_properties):
     if property_name in previous_properties:
         return []
     previous_properties.add(property_name)
-    if status == 'nested':
-        return process_nested(value, property_name)
-    if status == '-':
-        return process_removed(key, value, diff, property_name)
-    if status == '+':
-        return process_added(key, value, diff, property_name)
-    return []
+    status_map = {
+        'nested': process_nested,
+        '-': process_removed,
+        '+': process_added
+    }
+    return status_map.get(status, lambda *args: [])(
+        key, value, diff, property_name, previous_properties
+    )
 
 
-def plain(diff, parent=''):
-    lines = []
-    previous_properties = set()
-    for key, status, value, _ in diff:
-        lines.extend(process_diff_item(
-            key, status, value, diff, parent, previous_properties
-        ))
-    return lines
-
-
-def process_nested(value, property_name):
+def process_nested(key, value, diff, property_name, previous_properties):
     return plain(value, property_name)
 
 
-def process_removed(key, value, diff, property_name):
+def process_removed(key, value, diff, property_name, previous_properties):
     lines = []
     next_index = find_next_index(key, diff)
     if next_index is not None:
@@ -56,6 +45,15 @@ def process_removed(key, value, diff, property_name):
     return lines
 
 
+def process_added(key, value, diff, property_name, previous_properties):
+    if not any(k == key and s == '-' for k, s, _, __ in diff):
+        return [
+            f"Property '{property_name}' was added with value: "
+            f"{format_value(value)}"
+        ]
+    return []
+
+
 def find_next_index(key, diff):
     return next(
         (i for i, (k, s, _, __) in enumerate(diff)
@@ -64,10 +62,11 @@ def find_next_index(key, diff):
     )
 
 
-def process_added(key, value, diff, property_name):
-    if not any(k == key and s == '-' for k, s, _, __ in diff):
-        return [
-            f"Property '{property_name}' was added with value: "
-            f"{format_value(value)}"
-        ]
-    return []
+def plain(diff, parent=''):
+    lines = []
+    previous_properties = set()
+    for key, status, value, _ in diff:
+        lines.extend(process_diff_item(
+            key, status, value, diff, parent, previous_properties
+        ))
+    return lines
