@@ -43,7 +43,8 @@ def handle_removed(context):
         _, _, new_value, _ = context['diff'][next_index]
         lines.append(
             f"Property '{context['property_name']}' was updated. "
-            f"From {format_value(context['value'])} to {format_value(new_value)}"
+            f"From {format_value(context['value'])} to "
+            f"{format_value(new_value)}"
         )
     else:
         lines.append(
@@ -53,7 +54,10 @@ def handle_removed(context):
 
 
 def handle_added(context):
-    if not any(k == context['key'] and s == '-' for k, s, _, __ in context['diff']):
+    if not any(
+        k == context['key'] and s == '-'
+        for k, s, _, __ in context['diff']
+    ):
         return [
             f"Property '{context['property_name']}' was added with value: "
             f"{format_value(context['value'])}"

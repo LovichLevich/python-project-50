@@ -31,24 +31,38 @@ def generate_diff_lines(data1, data2, depth=INITIAL_DEPTH):
     keys = sorted(set(data1.keys()).union(set(data2.keys())))
     diff = []
     for key in keys:
-        if key not in data2:
-            diff.append((key, '-', data1[key], depth))
-        elif key not in data1:
-            diff.append((key, '+', data2[key], depth))
+        diff_item = process_key(key, data1, data2, depth)
+        if isinstance(diff_item, list):
+            diff.extend(diff_item)
         else:
-            if isinstance(data1[key], dict) and isinstance(data2[key], dict):
-                nested_diff = generate_diff_lines(
-                    data1[key],
-                    data2[key],
-                    depth + DEPTH_INCREMENT
-                )
-                diff.append((key, 'nested', nested_diff, depth))
-            elif data1[key] != data2[key]:
-                diff.append((key, '-', data1[key], depth))
-                diff.append((key, '+', data2[key], depth))
-            else:
-                diff.append((key, ' ', data1[key], depth))
+            diff.append(diff_item)
     return diff
+
+
+def process_key(key, data1, data2, depth):
+    if key not in data2:
+        return (key, '-', data1[key], depth)
+    elif key not in data1:
+        return (key, '+', data2[key], depth)
+    else:
+        return process_existing_key(key, data1, data2, depth)
+
+
+def process_existing_key(key, data1, data2, depth):
+    if isinstance(data1[key], dict) and isinstance(data2[key], dict):
+        nested_diff = generate_diff_lines(
+            data1[key],
+            data2[key],
+            depth + DEPTH_INCREMENT
+        )
+        return (key, 'nested', nested_diff, depth)
+    elif data1[key] != data2[key]:
+        return [
+            (key, '-', data1[key], depth),
+            (key, '+', data2[key], depth)
+        ]
+    else:
+        return (key, ' ', data1[key], depth)
 
 
 def process_dict(key, value, depth, symbol, indent, lines):
