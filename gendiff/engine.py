@@ -4,20 +4,29 @@ from gendiff.filters.stylish import generate_diff_lines, stylish
 from gendiff.parser import read_file
 
 
-def format_diff(diff, formatter='stylish'):
+def get_formatter_function(formatter):
     if formatter == 'stylish':
-        formatted_diff = stylish(diff)
+        return stylish
     elif formatter == 'plain':
-        formatted_diff = plain(diff)
+        return plain
     elif formatter == 'json':
-        formatted_diff = gendiff_json(diff)
+        return gendiff_json
     else:
         raise ValueError(f"Unknown formatter: {formatter}")
+
+
+def format_diff_result(formatted_diff, formatter):
     if formatter == 'plain':
         return "\n".join(formatted_diff)
     if isinstance(formatted_diff, list):
         return "{\n" + "\n".join(formatted_diff) + "\n}"
     return formatted_diff
+
+
+def format_diff(diff, formatter='stylish'):
+    formatter_function = get_formatter_function(formatter)
+    formatted_diff = formatter_function(diff)
+    return format_diff_result(formatted_diff, formatter)
 
 
 def generate_diff(file1_path, file2_path, formatter='stylish'):
