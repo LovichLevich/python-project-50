@@ -3,9 +3,6 @@ from gendiff.filters.plain import plain
 from gendiff.filters.stylish import generate_diff_lines, stylish
 from gendiff.parser import read_file
 
-INITIAL_DEPTH = 0
-DEPTH_INCREMENT = 1
-
 
 def format_diff(diff, formatter='stylish'):
     if formatter == 'stylish':

@@ -23,11 +23,11 @@ def process_value(value):
 
 def process_nested(key, value, depth, indent, lines):
     lines.append(f"{indent}    {key}: {{")
-    lines.extend(stylish(value, depth + 1))
+    lines.extend(stylish(value, depth + DEPTH_INCREMENT))
     lines.append(f"{indent}    }}")
 
 
-def generate_diff_lines(data1, data2, depth=0):
+def generate_diff_lines(data1, data2, depth=INITIAL_DEPTH):
     keys = sorted(set(data1.keys()).union(set(data2.keys())))
     diff = []
     for key in keys:
@@ -40,7 +40,7 @@ def generate_diff_lines(data1, data2, depth=0):
                 nested_diff = generate_diff_lines(
                     data1[key],
                     data2[key],
-                    depth + 1
+                    depth + DEPTH_INCREMENT
                 )
                 diff.append((key, 'nested', nested_diff, depth))
             elif data1[key] != data2[key]:
@@ -53,7 +53,10 @@ def generate_diff_lines(data1, data2, depth=0):
 
 def process_dict(key, value, depth, symbol, indent, lines):
     lines.append(f"{indent}  {symbol} {key}: {{")
-    nested_lines = stylish(generate_diff_lines(value, {}, depth + 1), depth + 1)
+    nested_lines = stylish(
+        generate_diff_lines(value, {}, depth + DEPTH_INCREMENT),
+        depth + DEPTH_INCREMENT
+    )
     if symbol in ['-', '+']:
         nested_lines = [
             line.replace('+ ', '  ').replace('- ', '  ')
@@ -65,13 +68,13 @@ def process_dict(key, value, depth, symbol, indent, lines):
 
 def process_line(key, symbol, value_str, depth, indent, lines):
     line = f"{indent}  {symbol} {key}: {value_str}"
-    if depth > 0 and symbol not in ['-', '+']:
+    if depth > INITIAL_DEPTH and symbol not in ['-', '+']:
         line = f"{indent}    {key}: {value_str}"
     lines.append(line)
 
 
-def stylish(diff, depth=0):
-    indent = ' ' * 4 * depth
+def stylish(diff, depth=INITIAL_DEPTH):
+    indent = ' ' * INDENT_SIZE * depth
     lines = []
     for key, status, value, value_depth in diff:
         symbol = '-' if status == '-' else '+' if status == '+' else ' '
