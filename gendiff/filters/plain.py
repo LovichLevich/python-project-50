@@ -30,7 +30,9 @@ def plain(diff, parent=''):
     lines = []
     previous_properties = set()
     for key, status, value, _ in diff:
-        lines.extend(process_diff_item(key, status, value, diff, parent, previous_properties))
+        lines.extend(process_diff_item(
+            key, status, value, diff, parent, previous_properties
+        ))
     return lines
 
 
