@@ -22,41 +22,41 @@ def add_property_to_set(property_name, previous_properties):
     previous_properties.add(property_name)
 
 
-def process_status(status, key, value, diff, property_name):
+def process_status(context):
     status_handlers = {
         'nested': handle_nested,
         '-': handle_removed,
         '+': handle_added
     }
-    handler = status_handlers.get(status, lambda *args: [])
-    return handler(key, value, diff, property_name)
+    handler = status_handlers.get(context['status'], lambda *args: [])
+    return handler(context)
 
 
-def handle_nested(key, value, diff, property_name):
-    return plain(value, property_name)
+def handle_nested(context):
+    return plain(context['value'], context['property_name'])
 
 
-def handle_removed(key, value, diff, property_name):
+def handle_removed(context):
     lines = []
-    next_index = find_next_index(key, diff)
+    next_index = find_next_index(context['key'], context['diff'])
     if next_index is not None:
-        _, _, new_value, _ = diff[next_index]
+        _, _, new_value, _ = context['diff'][next_index]
         lines.append(
-            f"Property '{property_name}' was updated. "
-            f"From {format_value(value)} to {format_value(new_value)}"
+            f"Property '{context['property_name']}' was updated. "
+            f"From {format_value(context['value'])} to {format_value(new_value)}"
         )
     else:
         lines.append(
-            f"Property '{property_name}' was removed"
+            f"Property '{context['property_name']}' was removed"
         )
     return lines
 
 
-def handle_added(key, value, diff, property_name):
-    if not any(k == key and s == '-' for k, s, _, __ in diff):
+def handle_added(context):
+    if not any(k == context['key'] and s == '-' for k, s, _, __ in context['diff']):
         return [
-            f"Property '{property_name}' was added with value: "
-            f"{format_value(value)}"
+            f"Property '{context['property_name']}' was added with value: "
+            f"{format_value(context['value'])}"
         ]
     return []
 
@@ -67,7 +67,14 @@ def process_diff_item(diff_item, diff, parent, previous_properties):
     if is_property_processed(property_name, previous_properties):
         return []
     add_property_to_set(property_name, previous_properties)
-    return process_status(status, key, value, diff, property_name)
+    context = {
+        'status': status,
+        'key': key,
+        'value': value,
+        'diff': diff,
+        'property_name': property_name
+    }
+    return process_status(context)
 
 
 def find_next_index(key, diff):
