@@ -1,23 +1,10 @@
 #!/usr/bin/env python
-import argparse
 from gendiff.engine import generate_diff
+from gendiff.helpers.cli import parse_arguments
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description='Compares two configuration files and shows a difference.'
-    )
-    parser.add_argument(
-        "-f",
-        "--format",
-        dest="format",
-        default="stylish",
-        help="Set format of output (default: stylish)"
-    )
-    parser.add_argument('first_file')
-    parser.add_argument('second_file')
-    args = parser.parse_args()
-
+    args = parse_arguments()
     if args.format == 'plain':
         formatter = 'plain'
     elif args.format == 'json':
@@ -26,7 +13,6 @@ def main():
         formatter = 'stylish'
     else:
         raise ValueError(f"Unknown format: {args.format}")
-
     print(generate_diff(args.first_file, args.second_file, formatter))
 
 
