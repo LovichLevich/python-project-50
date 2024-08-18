@@ -27,7 +27,16 @@ def process_nested(key, value, depth, indent, lines):
     lines.append(f"{indent}    }}")
 
 
-def generate_diff_lines(data1, data2, depth=INITIAL_DEPTH):
+def process_key(key, data1, data2, depth):
+    if key not in data2:
+        return (key, '-', data1[key], depth)
+    elif key not in data1:
+        return (key, '+', data2[key], depth)
+    else:
+        return process_existing_key(key, data1, data2, depth)
+
+
+def generate_lines(data1, data2, depth=INITIAL_DEPTH):
     keys = sorted(set(data1.keys()).union(set(data2.keys())))
     diff = []
     for key in keys:
@@ -39,18 +48,9 @@ def generate_diff_lines(data1, data2, depth=INITIAL_DEPTH):
     return diff
 
 
-def process_key(key, data1, data2, depth):
-    if key not in data2:
-        return (key, '-', data1[key], depth)
-    elif key not in data1:
-        return (key, '+', data2[key], depth)
-    else:
-        return process_existing_key(key, data1, data2, depth)
-
-
 def process_existing_key(key, data1, data2, depth):
     if isinstance(data1[key], dict) and isinstance(data2[key], dict):
-        nested_diff = generate_diff_lines(
+        nested_diff = generate_lines(
             data1[key],
             data2[key],
             depth + DEPTH_INCREMENT
@@ -68,7 +68,7 @@ def process_existing_key(key, data1, data2, depth):
 def process_dict(key, value, depth, symbol, indent, lines):
     lines.append(f"{indent}  {symbol} {key}: {{")
     nested_lines = stylish(
-        generate_diff_lines(value, {}, depth + DEPTH_INCREMENT),
+        generate_lines(value, {}, depth + DEPTH_INCREMENT),
         depth + DEPTH_INCREMENT
     )
     if symbol in ['-', '+']:

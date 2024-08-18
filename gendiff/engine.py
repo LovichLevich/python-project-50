@@ -1,18 +1,8 @@
-from gendiff.filters.json import gendiff_json
-from gendiff.filters.plain import plain
-from gendiff.filters.stylish import generate_diff_lines, stylish
+from gendiff.filters.chois_filtter import get_formatter_function
+from gendiff.filters.stylish import process_key
 from gendiff.parser import read_file
 
-
-def get_formatter_function(formatter):
-    if formatter == 'stylish':
-        return stylish
-    elif formatter == 'plain':
-        return plain
-    elif formatter == 'json':
-        return gendiff_json
-    else:
-        raise ValueError(f"Unknown formatter: {formatter}")
+INITIAL_DEPTH = 0
 
 
 def format_diff_result(formatted_diff, formatter):
@@ -27,6 +17,18 @@ def format_diff(diff, formatter='stylish'):
     formatter_function = get_formatter_function(formatter)
     formatted_diff = formatter_function(diff)
     return format_diff_result(formatted_diff, formatter)
+
+
+def generate_diff_lines(data1, data2, depth=INITIAL_DEPTH):
+    keys = sorted(set(data1.keys()).union(set(data2.keys())))
+    diff = []
+    for key in keys:
+        diff_item = process_key(key, data1, data2, depth)
+        if isinstance(diff_item, list):
+            diff.extend(diff_item)
+        else:
+            diff.append(diff_item)
+    return diff
 
 
 def generate_diff(file1_path, file2_path, formatter='stylish'):
