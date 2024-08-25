@@ -11,4 +11,4 @@ def get_format(string_format):
     elif string_format == 'json':
         return diff_json
     else:
-        raise ValueError(f"Unknown formatter: {string_format}") 
+        raise ValueError(f"Unknown formatter: {string_format}")

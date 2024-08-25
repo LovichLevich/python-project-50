@@ -1,5 +1,5 @@
-import json # type: ignore
-import yaml # type: ignore
+import json  # type: ignore
+import yaml  # type: ignore
 
 
 def parse(data: str, format: str) -> dict:
