@@ -35,6 +35,6 @@ def gen_text_diff_plain_real(diff, path=''):
     return result
 
 
-def format(diff):
+def plain(diff):
     plain_diff = gen_text_diff_plain_real(diff)
     return plain_diff[:len(plain_diff) - 1]
