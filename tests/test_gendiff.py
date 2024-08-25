@@ -1,65 +1,38 @@
-import pytest  # type: ignore
 from gendiff.engine import generate_diff
-from gendiff.filters.stylish import conv_string
+import pytest # type: ignore
 
 
-@pytest.mark.parametrize("input, expected", [
-    (None, "null"),
-    (True, "true"),
-    (False, "false"),
+
+
+@pytest.mark.parametrize("file1,file2", [
+    ('tests/fixtures/file1.json', 'tests/fixtures/file2.json'),
+    ('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml')
 ])
-def test_convert_value_to_string(input, expected):
-    assert conv_string(input) == expected
+def test_generate_diff(file1, file2):
+    expected_output = open('tests/fixtures/result_json_1_2.txt').read()
+    different = generate_diff(file1, file2)
+    assert type(different) == str
+    assert different == expected_output
 
 
-@pytest.fixture
-def file1_json_path():
-    return 'tests/fixtures/file1.json'
-
-
-@pytest.fixture
-def file2_json_path():
-    return 'tests/fixtures/file2.json'
-
-
-@pytest.fixture
-def file1_yaml_path():
-    return 'tests/fixtures/file1.yaml'
-
-
-@pytest.fixture
-def file2_yaml_path():
-    return 'tests/fixtures/file2.yaml'
-
-
-@pytest.fixture
-def expected_diff_stylish():
-    with open('tests/fixtures/expected_diff_stylish.txt') as f:
-        return f.read().strip()
-
-
-@pytest.fixture
-def expected_diff_plain():
-    with open('tests/fixtures/expected_diff_plain.txt') as f:
-        return f.read().strip()
-
-
-@pytest.fixture
-def expected_diff_json():
-    with open('tests/fixtures/expected_diff_json.txt') as f:
-        return f.read().strip()
-
-
-@pytest.mark.parametrize("file1_path, file2_path, expected_diff, formatter", [
-    ('file1_json_path', 'file2_json_path', 'expected_diff_json', 'json'),
-    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_stylish', 'stylish'),
-    ('file1_yaml_path', 'file2_yaml_path', 'expected_diff_plain', 'plain'),
+@pytest.mark.parametrize("file1,file2", [
+    ('tests/fixtures/file3.json', 'tests/fixtures/file4.json'),
+    ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml')
 ])
-def test_generate_diff(
-    file1_path, file2_path, expected_diff, formatter, request
-):
-    file1_path = request.getfixturevalue(file1_path)
-    file2_path = request.getfixturevalue(file2_path)
-    expected_diff = request.getfixturevalue(expected_diff)
-    diff_result = generate_diff(file1_path, file2_path, formatter)
-    assert diff_result == expected_diff
+def test_generate_diff_rec(file1, file2):
+    expected_output = open('tests/fixtures/result_json_3_4.txt').read()
+    different = generate_diff(file1, file2)
+    assert type(different) == str
+    assert different == expected_output
+
+
+@pytest.mark.parametrize("file1,file2", [
+    ('tests/fixtures/file3.json', 'tests/fixtures/file4.json'),
+    ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml')
+])
+def test_generate_diff_plain(file1, file2):
+    expected_output = open('tests/fixtures/result_plain.txt').read()
+    different = generate_diff(file1, file2, 'plain')
+    assert type(different) == str
+    assert generate_diff('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 'plain') == expected_output
+

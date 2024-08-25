@@ -1,12 +1,11 @@
-import yaml  # type: ignore
-import json  # type: ignore
+import json # type: ignore
+import yaml # type: ignore
 
 
-def read_file(file_path):
-    with open(file_path, 'r') as file:
-        if file_path.endswith('.json'):
-            return json.load(file)
-        elif file_path.endswith('.yaml') or file_path.endswith('.yml'):
-            return yaml.safe_load(file)
-        else:
-            raise ValueError(f"Unsupported file format: {file_path}")
+def parse(data: str, format: str) -> dict:
+    if format == "json":
+        return json.loads(data)
+    elif format == "yaml" or format == "yml":
+        return yaml.safe_load(data)
+    else:
+        raise ValueError(f"Unsupported file format: {format}")

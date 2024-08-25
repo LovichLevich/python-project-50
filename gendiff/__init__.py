@@ -1,3 +1,4 @@
-from .engine import generate_diff
+from gendiff import engine, cli
 
-__all__ = ('generate_diff',)
+generate_diff = engine.generate_diff
+parse_arguments = cli

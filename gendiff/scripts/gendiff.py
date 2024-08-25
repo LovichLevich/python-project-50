@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-from gendiff.engine import generate_diff
-from gendiff.helpers.cli import parse_arguments
+#!/usr/bin/env python3
+import gendiff
 
 
 def main():
-    args = parse_arguments()
-    print(generate_diff(args.first_file, args.second_file, args.format))
+    args = gendiff.cli.parse_args()
+    print(gendiff.generate_diff(args.filename1, args.filename2, args.format))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
