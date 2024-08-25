@@ -4,7 +4,7 @@ from gendiff.parser import parse
 
 
 def gen_different(item1, item2):
-    if type(item1) == dict and type(item2) == dict:
+    if isinstance(item1, dict) and isinstance(item2, dict):
         return gen_base_diff(item1, item2)
     else:
         return item1, item2
