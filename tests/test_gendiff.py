@@ -1,7 +1,5 @@
 from gendiff.engine import generate_diff
-import pytest # type: ignore
-
-
+import pytest  # type: ignore
 
 
 @pytest.mark.parametrize("file1,file2", [
@@ -11,7 +9,7 @@ import pytest # type: ignore
 def test_generate_diff(file1, file2):
     expected_output = open('tests/fixtures/result_json_1_2.txt').read()
     different = generate_diff(file1, file2)
-    assert type(different) == str
+    assert isinstance(different, str)
     assert different == expected_output
 
 
@@ -22,7 +20,7 @@ def test_generate_diff(file1, file2):
 def test_generate_diff_rec(file1, file2):
     expected_output = open('tests/fixtures/result_json_3_4.txt').read()
     different = generate_diff(file1, file2)
-    assert type(different) == str
+    assert isinstance(different, str)
     assert different == expected_output
 
 
@@ -33,6 +31,7 @@ def test_generate_diff_rec(file1, file2):
 def test_generate_diff_plain(file1, file2):
     expected_output = open('tests/fixtures/result_plain.txt').read()
     different = generate_diff(file1, file2, 'plain')
-    assert type(different) == str
-    assert generate_diff('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 'plain') == expected_output
-
+    assert isinstance(different, str)
+    assert generate_diff(
+        'tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 'plain'
+    ) == expected_output
