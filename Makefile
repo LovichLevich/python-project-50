@@ -40,3 +40,7 @@ package-install:
 
 package-reinstall:
 	python3 -m pip install --user --force-reinstall dist/*.whl
+
+retry:
+	make build
+	make package-install
