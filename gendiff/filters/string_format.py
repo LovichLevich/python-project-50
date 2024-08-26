@@ -1,3 +1,6 @@
+from gendiff.constants import DEPTH_INCREMENT
+
+
 def to_string(data):
     if data is None:
         return 'null'
@@ -7,7 +10,7 @@ def to_string(data):
         return data
 
 
-def string_format(dictionary, depth=1):
+def string_format(dictionary, depth=DEPTH_INCREMENT):
     dictionary = to_string(dictionary)
     if not isinstance(dictionary, dict):
         return dictionary
@@ -17,9 +20,12 @@ def string_format(dictionary, depth=1):
     for key in keys:
         item = dictionary[key]
         if isinstance(item, dict):
-            result += f'{indent}{key}: {string_format(item, depth + 1)}\n'
+            result += (
+                f'{indent}{key}: '
+                f'{string_format(item, depth + DEPTH_INCREMENT)}\n'
+            )
         else:
             if isinstance(item, bool):
                 item = str(item).lower()
             result += f'{indent}{key}: {item}\n'
-    return '{\n' + result + f'{"    " * (depth - 1)}}}'
+    return '{\n' + result + f'{"    " * (depth - DEPTH_INCREMENT)}}}'

@@ -1,3 +1,4 @@
+from gendiff.constants import DEPTH_INCREMENT
 from gendiff.filters.string_format import string_format
 
 
@@ -11,7 +12,7 @@ def to_string(value):
 
 
 def get_path_plain(previous_path, new_part):
-    new_path = f'{previous_path}.{new_part}'[1:]
+    new_path = f'{previous_path}.{new_part}'[DEPTH_INCREMENT:]
     return new_path
 
 
