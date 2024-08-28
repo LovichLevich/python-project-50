@@ -1,6 +1,6 @@
-from gendiff.filters.json import json
-from gendiff.filters.plain import plain
-from gendiff.filters.stylish import stylish
+from gendiff.formatters.json import json
+from gendiff.formatters.plain import plain
+from gendiff.formatters.stylish import stylish
 
 ERROR_MESSAGE = 'Error! Wrong output format'
 

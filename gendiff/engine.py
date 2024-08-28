@@ -1,5 +1,5 @@
 from gendiff.data import read_file_data
-from gendiff.filters.chois_filtter import get_format
+from gendiff.chois_filtter import get_format
 from gendiff.parser import parse
 
 
