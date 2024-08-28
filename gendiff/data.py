@@ -6,7 +6,7 @@ EXTENSION_INDEX = 1
 SLICE_START_INDEX = 1
 
 
-def data_form(file_path):
+def read_file_data(file_path):
     file = SUPPORTED_EXTENSIONS
     extension = splitext(file_path)[EXTENSION_INDEX][SLICE_START_INDEX:]
     if extension in file:
