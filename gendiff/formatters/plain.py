@@ -1,15 +1,15 @@
-from gendiff.string_format import string_format
-
 DEPTH_INCREMENT = 1
 
 
 def to_string(value):
-    if isinstance(value, dict):
+    if value is None:
+        return 'null'
+    elif isinstance(value, bool):
+        return str(value).lower()
+    elif isinstance(value, dict):
         return '[complex value]'
     elif isinstance(value, str):
         return f"'{value}'"
-    else:
-        return string_format(value)
 
 
 def get_path_plain(previous_path, new_part):
