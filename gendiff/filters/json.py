@@ -1,6 +1,6 @@
 import json
 
-from gendiff.constants import INDENT_SIZE
+INDENT_SIZE = 4
 
 
 def diff_json(diff):

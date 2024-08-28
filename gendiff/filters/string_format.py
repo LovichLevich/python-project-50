@@ -1,4 +1,4 @@
-from gendiff.constants import DEPTH_INCREMENT
+DEPTH_INCREMENT = 1
 
 
 def to_string(data):

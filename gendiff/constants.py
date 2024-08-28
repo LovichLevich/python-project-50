@@ -1,6 +1,0 @@
-INDENT_SIZE = 4
-DEPTH_INCREMENT = 1
-SUPPORTED_EXTENSIONS = ('yaml', 'yml', 'json')
-ERROR_MESSAGE = 'Error! Wrong output format'
-EXTENSION_INDEX = 1
-SLICE_START_INDEX = 1

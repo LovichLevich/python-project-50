@@ -1,7 +1,8 @@
-from gendiff.constants import ERROR_MESSAGE
 from gendiff.filters.json import diff_json
 from gendiff.filters.plain import plain
 from gendiff.filters.stylish import stylish
+
+ERROR_MESSAGE = 'Error! Wrong output format'
 
 
 def get_format(string_format):

@@ -1,6 +1,9 @@
 from os.path import splitext
-from gendiff.constants import ERROR_MESSAGE, EXTENSION_INDEX, \
-    SLICE_START_INDEX, SUPPORTED_EXTENSIONS
+
+SUPPORTED_EXTENSIONS = ('yaml', 'yml', 'json')
+ERROR_MESSAGE = 'Error! Wrong output format'
+EXTENSION_INDEX = 1
+SLICE_START_INDEX = 1
 
 
 def data_form(file_path):

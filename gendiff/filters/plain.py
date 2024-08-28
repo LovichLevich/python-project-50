@@ -1,5 +1,6 @@
-from gendiff.constants import DEPTH_INCREMENT
 from gendiff.filters.string_format import string_format
+
+DEPTH_INCREMENT = 1
 
 
 def to_string(value):
