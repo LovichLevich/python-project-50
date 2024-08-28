@@ -1,7 +1,7 @@
-import json
+import json as json_module
 
 INDENT_SIZE = 4
 
 
-def diff_json(diff):
-    return json.dumps(diff, indent=INDENT_SIZE)
+def json(diff):
+    return json_module.dumps(diff, indent=INDENT_SIZE)

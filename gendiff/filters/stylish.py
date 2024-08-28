@@ -1,4 +1,4 @@
-from gendiff.filters.string_format import string_format
+from gendiff.string_format import string_format
 
 DEPTH_INCREMENT = 1
 
