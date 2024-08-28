@@ -3,7 +3,7 @@ from gendiff.string_format import string_format
 DEPTH_INCREMENT = 1
 
 
-def gen_tree_changed(item, key, depth):
+def generate_tree_changed(item, key, depth):
     result = ''
     item1 = string_format(item['old_value'], depth + DEPTH_INCREMENT)
     item2 = string_format(item['new_value'], depth + DEPTH_INCREMENT)
@@ -28,7 +28,7 @@ def stylish(diff, depth=DEPTH_INCREMENT):
             result += f'{(depth - DEPTH_INCREMENT) * "    "}  + {key}: {item}\n'
         elif key in diff['changed']:
             item = diff['changed'][key]
-            result += gen_tree_changed(item, key, depth)
+            result += generate_tree_changed(item, key, depth)
         else:
             item = diff['nested'][key]
             result += (f'{depth * "    "}{key}: '
