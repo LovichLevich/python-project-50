@@ -6,21 +6,21 @@ from gendiff.engine import generate_diff
 @pytest.mark.parametrize(
     "file1, file2, expected_output_file, format_type",
     [
-        ('tests/fixtures/file1.json', 'tests/fixtures/file2.json', 
+        ('tests/fixtures/file1.json', 'tests/fixtures/file2.json',
          'tests/fixtures/result_json_1_2.txt', None),
-        ('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml', 
+        ('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml',
          'tests/fixtures/result_json_1_2.txt', None),
-        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json',
          'tests/fixtures/result_json_3_4.txt', None),
-        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 
+        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml',
          'tests/fixtures/result_json_3_4.txt', None),
-        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json',
          'tests/fixtures/result_plain.txt', 'plain'),
-        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 
+        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml',
          'tests/fixtures/result_plain.txt', 'plain'),
-        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json', 
+        ('tests/fixtures/file3.json', 'tests/fixtures/file4.json',
          'tests/fixtures/result_json_json.txt', 'json'),
-        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml', 
+        ('tests/fixtures/file3.yaml', 'tests/fixtures/file4.yaml',
          'tests/fixtures/result_json_json.txt', 'json')
     ]
 )
