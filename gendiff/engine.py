@@ -1,5 +1,5 @@
 from gendiff.data import read_file_data
-from gendiff.chois_filtter import get_format
+from gendiff.chois_filtter import determine_format
 from gendiff.parser import parse
 
 
@@ -45,4 +45,4 @@ def generate_diff(file_path1, file_path2, format='stylish'):
     data2, format2 = read_file_data(file_path2)
     file1 = parse(data1, format1)
     file2 = parse(data2, format2)
-    return get_format(format)(gen_base_diff(file1, file2))
+    return determine_format(format)(gen_base_diff(file1, file2))

@@ -5,7 +5,7 @@ from gendiff.formatters.stylish import stylish
 ERROR_MESSAGE = 'Error! Wrong output format'
 
 
-def get_format(string_format):
+def determine_format(string_format):
     if string_format == 'stylish' or not string_format:
         return stylish
     elif string_format == 'plain':
