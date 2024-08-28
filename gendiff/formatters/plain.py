@@ -10,6 +10,8 @@ def to_string(value):
         return '[complex value]'
     elif isinstance(value, str):
         return f"'{value}'"
+    else:
+        return str(value)
 
 
 def get_path_plain(previous_path, new_part):
