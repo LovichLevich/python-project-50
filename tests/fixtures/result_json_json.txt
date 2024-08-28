@@ -1,0 +1,119 @@
+{
+    "unchanged": {},
+    "removed": {
+        "group2": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    "added": {
+        "group3": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    },
+    "changed": {},
+    "nested": {
+        "common": {
+            "unchanged": {
+                "setting1": "Value 1"
+            },
+            "removed": {
+                "setting2": 200
+            },
+            "added": {
+                "follow": false,
+                "setting4": "blah blah",
+                "setting5": {
+                    "key5": "value5"
+                }
+            },
+            "changed": {
+                "setting3": {
+                    "old_value": true,
+                    "new_value": null
+                }
+            },
+            "nested": {
+                "setting6": {
+                    "unchanged": {
+                        "key": "value"
+                    },
+                    "removed": {},
+                    "added": {
+                        "ops": "vops"
+                    },
+                    "changed": {},
+                    "nested": {
+                        "doge": {
+                            "unchanged": {},
+                            "removed": {},
+                            "added": {},
+                            "changed": {
+                                "wow": {
+                                    "old_value": "",
+                                    "new_value": "so much"
+                                }
+                            },
+                            "nested": {},
+                            "keys": [
+                                "wow"
+                            ]
+                        }
+                    },
+                    "keys": [
+                        "doge",
+                        "key",
+                        "ops"
+                    ]
+                }
+            },
+            "keys": [
+                "follow",
+                "setting1",
+                "setting2",
+                "setting3",
+                "setting4",
+                "setting5",
+                "setting6"
+            ]
+        },
+        "group1": {
+            "unchanged": {
+                "foo": "bar"
+            },
+            "removed": {},
+            "added": {},
+            "changed": {
+                "baz": {
+                    "old_value": "bas",
+                    "new_value": "bars"
+                },
+                "nest": {
+                    "old_value": {
+                        "key": "value"
+                    },
+                    "new_value": "str"
+                }
+            },
+            "nested": {},
+            "keys": [
+                "baz",
+                "foo",
+                "nest"
+            ]
+        }
+    },
+    "keys": [
+        "common",
+        "group1",
+        "group2",
+        "group3"
+    ]
+}
